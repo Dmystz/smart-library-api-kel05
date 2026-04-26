@@ -11,6 +11,12 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+app.get('/api/debug-env', (req, res) => {
+  res.json({
+    DATABASE_URL: process.env.DATABASE_URL
+  });
+});
+
 // Grouping Routes
 app.use('/api/books', bookRoutes);
 app.use('/api/loans', loanRoutes);
