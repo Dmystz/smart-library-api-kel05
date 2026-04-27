@@ -1,9 +1,12 @@
 import express from 'express';
-import { LoanController } from '../controllers/loanController.js';
+import * as LoanController from '../controllers/loanController.js';
 
 const router = express.Router();
 
-router.get('/', LoanController.getLoans);
-router.post('/', LoanController.createLoan);
+// GET ALL LOANS
+router.get('/', LoanController.getAll);
+
+// RETURN BOOK
+router.post('/:id/return', LoanController.returnBook);
 
 export default router;

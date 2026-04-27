@@ -1,18 +1,22 @@
 import { pool } from '../config/db.js';
 
-export const MemberModel = {
-  async getAll() {
-    const result = await pool.query('SELECT * FROM members ORDER BY joined_at DESC');
-    return result.rows;
-  },
+export const getAll = () =>
+  pool.query("SELECT * FROM members");
 
-  async create(data) {
-    const { full_name, email, member_type } = data;
-    const query = `
-      INSERT INTO members (full_name, email, member_type) 
-      VALUES ($1, $2, $3) RETURNING *
-    `;
-    const result = await pool.query(query, [full_name, email, member_type]);
-    return result.rows[0];
-  }
-};
+export const getById = (id) =>
+  pool.query("SELECT * FROM members WHERE id=$1", [id]);
+
+export const create = (data) =>
+  pool.query(
+    "INSERT INTO members(name,email) VALUES($1,$2) RETURNING *",
+    [data.name, data.email]
+  );
+
+export const update = (id, data) =>
+  pool.query(
+    "UPDATE members SET name=$1, email=$2 WHERE id=$3 RETURNING *",
+    [data.name, data.email, id]
+  );
+
+export const deleteMember = (id) =>
+  pool.query("DELETE FROM members WHERE id=$1", [id]);
